@@ -291,24 +291,25 @@
         }, 1000);
 
         // Surprise Triggers
+        let videoDone = false;
+        let voiceDone = false;
+
         const video = document.getElementById('bdayVideo');
         const voice = document.getElementById('myVoiceNote');
         const letter = document.getElementById('secret-letter');
 
-        function revealSecret() {
-            if(letter.style.display !== 'block') {
+        function checkSurprise() {
+            if(videoDone && voiceDone) {
                 letter.style.display = 'block';
-                celebrate();
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 letter.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
-        video.onended = revealSecret;
-        voice.onended = revealSecret;
+        video.onended = () => { videoDone = true; checkSurprise(); };
+        voice.onended = () => { voiceDone = true; checkSurprise(); };
 
-        function celebrate() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        }
+        function celebrate() { confetti({ particleCount: 100 }); }
     </script>
 </body>
 </html>
